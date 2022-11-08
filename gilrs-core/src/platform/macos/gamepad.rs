@@ -323,13 +323,12 @@ impl Gamepad {
         let mut cookies = Vec::new();
 
         self.collect_axes(&elements, &mut cookies);
-        self.axes.sort_by_key(|axis| axis.usage);
-
         self.collect_buttons(&elements, &mut cookies);
-        self.buttons.sort_by_key(|button| button.usage);
     }
 
     fn collect_axes(&mut self, elements: &Vec<IOHIDElement>, cookies: &mut Vec<u32>) {
+        let mut hats = Vec::new();
+
         for element in elements {
             let type_ = element.get_type();
             let cookie = element.get_cookie();
@@ -360,7 +359,7 @@ impl Gamepad {
                         deadzone: None,
                     },
                 );
-                self.axes.push(EvCode::new(page, usage));
+                hats.push(EvCode::new(page, usage));
                 // All hat switches are translated into *two* axes
                 self.axes_info.insert(
                     (usage + 1) as usize, // "+ 1" is assumed for usage of 2nd hat switch axis
@@ -370,9 +369,16 @@ impl Gamepad {
                         deadzone: None,
                     },
                 );
-                self.axes.push(EvCode::new(page, usage + 1));
+                hats.push(EvCode::new(page, usage + 1));
             }
         }
+
+        self.axes.sort_by_key(|axis| axis.usage);
+
+        // Because hat is axis is gilrs thing, we want ensure that all hats are at the end of
+        // axis vector, so SDL mappings still works.
+        hats.sort_by_key(|axis| axis.usage);
+        self.axes.extend(hats);
     }
 
     fn collect_buttons(&mut self, elements: &Vec<IOHIDElement>, cookies: &mut Vec<u32>) {
@@ -390,6 +396,8 @@ impl Gamepad {
                 self.buttons.push(EvCode::new(page, usage));
             }
         }
+
+        self.buttons.sort_by_key(|button| button.usage);
     }
 }
 

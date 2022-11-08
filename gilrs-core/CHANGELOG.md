@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+v0.5.1 - unreleased
+--------------------
+
+### Fixed
+
+- macOS: Fixed that hat axes were sometimes added before other axes breaking SDL mappings.
+
 v0.5.0 - 2022-11-06
 --------------------
 

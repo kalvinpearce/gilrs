@@ -24,6 +24,7 @@ use std::os::raw::c_void;
 use std::sync::mpsc::{self, Receiver, Sender};
 use std::sync::{Arc, Mutex};
 use std::thread;
+use std::time::Duration;
 
 #[derive(Debug)]
 pub struct Gilrs {
@@ -120,6 +121,10 @@ impl Gilrs {
             }
             None => None,
         }
+    }
+
+    pub(crate) fn next_event_blocking(&mut self, timeout: Option<Duration>) -> Option<Event> {
+        unimplemented!()
     }
 
     pub fn gamepad(&self, id: usize) -> Option<&Gamepad> {

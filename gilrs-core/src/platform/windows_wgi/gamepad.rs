@@ -217,6 +217,10 @@ impl Gilrs {
         })
     }
 
+    pub(crate) fn next_event_blocking(&mut self, timeout: Option<Duration>) -> Option<Event> {
+        unimplemented!()
+    }
+
     pub fn gamepad(&self, id: usize) -> Option<&Gamepad> {
         self.gamepads.get(id)
     }

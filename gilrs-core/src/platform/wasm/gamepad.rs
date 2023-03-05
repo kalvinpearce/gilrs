@@ -147,7 +147,7 @@ impl Gilrs {
     }
 
     pub(crate) fn next_event_blocking(&mut self, timeout: Option<Duration>) -> Option<Event> {
-        unimplemented!()
+        unimplemented!("next_event_blocking is not supported on web. Use next_event.")
     }
 
     pub fn gamepad(&self, id: usize) -> Option<&Gamepad> {

@@ -268,7 +268,10 @@ pub fn axis_dpad_to_button(ev: Option<Event>, gilrs: &mut Gilrs) -> Option<Event
         EventType::AxisChanged(Axis::DPadX, val, _) => {
             let mut release_left = false;
             let mut release_right = false;
-            let mut event = None;
+            let mut event = Some(Event {
+                event: EventType::Dropped,
+                ..ev
+            });
 
             if val == 1.0 {
                 // The axis value might change from left (-1.0) to right (1.0) immediately without
@@ -352,7 +355,10 @@ pub fn axis_dpad_to_button(ev: Option<Event>, gilrs: &mut Gilrs) -> Option<Event
         EventType::AxisChanged(Axis::DPadY, val, _) => {
             let mut release_up = false;
             let mut release_down = false;
-            let mut event = None;
+            let mut event = Some(Event {
+                event: EventType::Dropped,
+                ..ev
+            });
 
             if val == 1.0 {
                 // The axis value might change from down (-1.0) to up (1.0) immediately without us
